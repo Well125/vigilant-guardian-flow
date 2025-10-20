@@ -1,6 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { Session } from "@supabase/supabase-js";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LayoutDashboard, AlertTriangle, MapPin, FileText } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { LayoutDashboard, AlertTriangle, MapPin, FileText, LogOut } from "lucide-react";
 import Dashboard from "@/components/Dashboard";
 import EventsPanel from "@/components/EventsPanel";
 import AssetsPanel from "@/components/AssetsPanel";
@@ -8,6 +12,37 @@ import ReportsPanel from "@/components/ReportsPanel";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
+  const [session, setSession] = useState<Session | null>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setSession(session);
+        if (!session) {
+          navigate("/auth");
+        }
+      }
+    );
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      if (!session) {
+        navigate("/auth");
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [navigate]);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate("/auth");
+  };
+
+  if (!session) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -23,6 +58,10 @@ const Index = () => {
                 <p className="text-sm text-muted-foreground">Caixas de Passagem IoT</p>
               </div>
             </div>
+            <Button variant="ghost" onClick={handleLogout} className="gap-2">
+              <LogOut className="h-4 w-4" />
+              Sair
+            </Button>
           </div>
         </div>
       </header>
