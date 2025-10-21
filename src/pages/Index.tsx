@@ -4,7 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Session } from "@supabase/supabase-js";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { LayoutDashboard, AlertTriangle, MapPin, FileText, LogOut } from "lucide-react";
+import { LayoutDashboard, AlertTriangle, MapPin, FileText, LogOut, Sun, Moon } from "lucide-react";
+import { useTheme } from "@/components/ThemeProvider";
 import Dashboard from "@/components/Dashboard";
 import EventsPanel from "@/components/EventsPanel";
 import AssetsPanel from "@/components/AssetsPanel";
@@ -14,6 +15,7 @@ const Index = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [session, setSession] = useState<Session | null>(null);
   const navigate = useNavigate();
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -58,10 +60,23 @@ const Index = () => {
                 <p className="text-sm text-muted-foreground">Caixas de Passagem IoT</p>
               </div>
             </div>
-            <Button variant="ghost" onClick={handleLogout} className="gap-2">
-              <LogOut className="h-4 w-4" />
-              Sair
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              >
+                {theme === "dark" ? (
+                  <Sun className="h-5 w-5" />
+                ) : (
+                  <Moon className="h-5 w-5" />
+                )}
+              </Button>
+              <Button variant="ghost" onClick={handleLogout} className="gap-2">
+                <LogOut className="h-4 w-4" />
+                Sair
+              </Button>
+            </div>
           </div>
         </div>
       </header>
