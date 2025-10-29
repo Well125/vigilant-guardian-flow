@@ -14,16 +14,108 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          created_at: string | null
+          email: string
+          full_name: string
+          id: string
+          is_active: boolean | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          full_name: string
+          id: string
+          is_active?: boolean | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          full_name?: string
+          id?: string
+          is_active?: boolean | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      violation_alerts: {
+        Row: {
+          alert_type: string
+          created_at: string | null
+          device_id: string
+          gateway_id: string
+          id: string
+          is_duplicate: boolean | null
+          is_processed: boolean | null
+          raw_data: Json
+          signature: string | null
+          timestamp: string
+        }
+        Insert: {
+          alert_type: string
+          created_at?: string | null
+          device_id: string
+          gateway_id: string
+          id?: string
+          is_duplicate?: boolean | null
+          is_processed?: boolean | null
+          raw_data: Json
+          signature?: string | null
+          timestamp: string
+        }
+        Update: {
+          alert_type?: string
+          created_at?: string | null
+          device_id?: string
+          gateway_id?: string
+          id?: string
+          is_duplicate?: boolean | null
+          is_processed?: boolean | null
+          raw_data?: Json
+          signature?: string | null
+          timestamp?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "gestor" | "operador" | "tecnico"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +242,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "gestor", "operador", "tecnico"],
+    },
   },
 } as const
