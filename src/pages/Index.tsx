@@ -4,12 +4,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { Session } from "@supabase/supabase-js";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { LayoutDashboard, AlertTriangle, MapPin, FileText, LogOut, Sun, Moon } from "lucide-react";
+import { LayoutDashboard, AlertTriangle, MapPin, FileText, LogOut, Sun, Moon, Users } from "lucide-react";
 import { useTheme } from "@/components/ThemeProvider";
 import Dashboard from "@/components/Dashboard";
 import EventsPanel from "@/components/EventsPanel";
 import AssetsPanel from "@/components/AssetsPanel";
 import ReportsPanel from "@/components/ReportsPanel";
+import UserManagement from "@/components/UserManagement";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -83,7 +84,7 @@ const Index = () => {
 
       <main className="container mx-auto px-4 py-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full max-w-2xl grid-cols-4 mx-auto">
+          <TabsList className="grid w-full max-w-3xl grid-cols-5 mx-auto">
             <TabsTrigger value="dashboard" className="gap-2">
               <LayoutDashboard className="h-4 w-4" />
               <span className="hidden sm:inline">Dashboard</span>
@@ -99,6 +100,10 @@ const Index = () => {
             <TabsTrigger value="reports" className="gap-2">
               <FileText className="h-4 w-4" />
               <span className="hidden sm:inline">Relatórios</span>
+            </TabsTrigger>
+            <TabsTrigger value="users" className="gap-2">
+              <Users className="h-4 w-4" />
+              <span className="hidden sm:inline">Contas</span>
             </TabsTrigger>
           </TabsList>
 
@@ -116,6 +121,10 @@ const Index = () => {
 
           <TabsContent value="reports" className="space-y-6">
             <ReportsPanel />
+          </TabsContent>
+
+          <TabsContent value="users" className="space-y-6">
+            <UserManagement />
           </TabsContent>
         </Tabs>
       </main>
