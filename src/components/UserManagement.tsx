@@ -227,14 +227,13 @@ const UserManagement = () => {
               Gerencie usuários e suas permissões no sistema
             </CardDescription>
           </div>
-          <Button onClick={() => {
-            resetForm();
-            setIsDialogOpen(true);
-          }}>
-            <UserPlus className="mr-2 h-4 w-4" />
-            Novo Usuário
-          </Button>
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button onClick={() => resetForm()}>
+                <UserPlus className="mr-2 h-4 w-4" />
+                Novo Usuário
+              </Button>
+            </DialogTrigger>
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>
