@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -46,6 +47,13 @@ type UserRole = {
   role: "admin" | "gestor" | "operador" | "tecnico";
 };
 
+const userCreationSchema = z.object({
+  email: z.string().trim().email({ message: "Email inválido" }).max(255, { message: "Email muito longo" }),
+  full_name: z.string().trim().min(1, { message: "Nome não pode estar vazio" }).max(100, { message: "Nome muito longo" }),
+  password: z.string().min(8, { message: "Senha deve ter no mínimo 8 caracteres" }).max(100, { message: "Senha muito longa" }),
+  role: z.enum(["admin", "gestor", "operador", "tecnico"], { message: "Nível de acesso inválido" }),
+});
+
 const UserManagement = () => {
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [userRoles, setUserRoles] = useState<UserRole[]>([]);
@@ -91,13 +99,18 @@ const UserManagement = () => {
   };
 
   const handleCreateUser = async () => {
-    if (!formData.email || !formData.password || !formData.full_name) {
-      toast({
-        title: "Campos obrigatórios",
-        description: "Preencha todos os campos",
-        variant: "destructive",
-      });
-      return;
+    try {
+      // Validate input data
+      const validatedData = userCreationSchema.parse(formData);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        toast({
+          title: "Dados inválidos",
+          description: error.errors[0].message,
+          variant: "destructive",
+        });
+        return;
+      }
     }
 
     try {
