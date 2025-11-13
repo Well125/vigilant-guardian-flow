@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Shield } from "lucide-react";
+import movLogo from "@/assets/mov-logo.png";
 import { z } from "zod";
 
 const authSchema = z.object({
@@ -119,9 +120,7 @@ const Auth = () => {
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-4">
           <div className="flex justify-center">
-            <div className="p-3 rounded-full bg-primary/10">
-              <Shield className="h-8 w-8 text-primary" />
-            </div>
+            <img src={movLogo} alt="MOV Logo" className="h-20 w-auto" />
           </div>
           <CardTitle className="text-2xl text-center">
             {isLogin ? "Entrar no Sistema" : "Criar Conta"}

@@ -5,6 +5,7 @@ import { Session } from "@supabase/supabase-js";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { LayoutDashboard, AlertTriangle, MapPin, FileText, LogOut, Sun, Moon, Users } from "lucide-react";
+import movLogo from "@/assets/mov-logo.png";
 import { useTheme } from "@/components/ThemeProvider";
 import Dashboard from "@/components/Dashboard";
 import EventsPanel from "@/components/EventsPanel";
@@ -53,9 +54,7 @@ const Index = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-lg bg-primary flex items-center justify-center">
-                <MapPin className="h-6 w-6 text-primary-foreground" />
-              </div>
+              <img src={movLogo} alt="MOV Logo" className="h-10 w-auto" />
               <div>
                 <h1 className="text-xl font-bold text-foreground">Sistema de Monitoramento</h1>
                 <p className="text-sm text-muted-foreground">Caixas de Passagem IoT</p>
